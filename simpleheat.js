@@ -103,22 +103,25 @@ simpleheat.prototype = {
             this.gradient(this.defaultGradient);
         }
 
-        var ctx = this._ctx;
+        var ctx = this._ctx, _this = this;
 
         ctx.clearRect(0, 0, this._width, this._height);
 
-        // draw a grayscale heatmap by putting a blurred circle at each data point
-        for (var i = 0, len = this._data.length, p; i < len; i++) {
-            p = this._data[i];
+        setTimeout(function() {
+            // draw a grayscale heatmap by putting a blurred circle at each data point
+            for (var i = 0, len = _this._data.length, p; i < len; i++) {
+                p = _this._data[i];
 
-            ctx.globalAlpha = Math.max(p[2] / this._max, minOpacity === undefined ? 0.05 : minOpacity);
-            ctx.drawImage(this._circle, p[0] - this._r, p[1] - this._r);
-        }
+                ctx.globalAlpha = Math.max(p[2] / _this._max, minOpacity === undefined ? 0.05 : minOpacity);
+                ctx.drawImage(_this._circle, p[0] - _this._r, p[1] - _this._r);
+            }
 
-        // colorize the heatmap, using opacity value of each pixel to get the right color from our gradient
-        var colored = ctx.getImageData(0, 0, this._width, this._height);
-        this._colorize(colored.data, this._grad);
-        ctx.putImageData(colored, 0, 0);
+            // colorize the heatmap, using opacity value of each pixel to get the right color from our gradient
+            var colored = ctx.getImageData(0, 0, _this._width, _this._height);
+            _this._colorize(colored.data, _this._grad);
+            ctx.putImageData(colored, 0, 0);
+        }, 0);
+
 
         return this;
     },
